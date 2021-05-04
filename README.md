@@ -1,2 +1,2 @@
 # krav-manager
-Program to control my Krav Magag students
+Program to control my Krav Maga students
