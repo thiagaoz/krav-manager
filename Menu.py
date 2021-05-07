@@ -1,3 +1,7 @@
+#novas colunas pandas
+#tratar valores ausentes no pandas
+#editar atributos dos alunos
+
 
 import Aluno as al
 import os
@@ -12,7 +16,7 @@ while(True):
   print('\n[1] CADASTRAR \n[2] BUSCAR \n[3] LISTAR \n[4] GRADUAR \n[5] Estatísticas \n[0] SAIR')
   menu = input('Escolha: ')
   
-  #termina o programa
+  #termina o program
   if menu == '0': break 
   
   #opcao para cadastrar aluno
@@ -48,7 +52,7 @@ while(True):
         id = int(input('ID do Aluno: '))
         aluno = al.Aluno(id)
         cls()
-        print(aluno)
+        aluno.nicePrint()
 
   #listar alunos por faixas e ou horários de treino
   if menu == '3':
@@ -144,7 +148,7 @@ while(True):
       if menu3 == '0':
         break
         
-  #busca aluno por ID, passa uma faixa dele e pergunta se quer graduar outro
+  #GRADUAR busca aluno por ID, passa uma faixa dele e pergunta se quer graduar outro
   #ainda não está atualizando no DATAFRAME
   if menu == '4':
     menu4 = 'oi'

@@ -2,6 +2,7 @@ import krav_pandas
 import colorama
 from colorama import init, Fore, Back, Style
 
+#
 init(convert=True)
 init(autoreset=True)
 
@@ -21,7 +22,7 @@ class Aluno:
             self.nome_completo = self.nome + ' ' + self.sobrenome
 
         elif isinstance(args[0], str):
-            self.nome = args[0]
+            self.nome = args[0].title()
             self.sobrenome = "Silva"
             self.nome_completo = self.nome + ' ' + self.sobrenome
             self.faixa = args[1].upper()
@@ -39,26 +40,21 @@ class Aluno:
         j = Aluno.faixas.index(self.faixa)
         self.faixa = Aluno.faixas[j+1]
 
-    #def nicePrint(self):
-       
-# alunoTeste = Aluno('Ciclano','MARROM +')
-# print('--------------------------------------------------------------------------------------------')
-# print(Fore.CYAN +'NOME: ', end='')
-# print(alunoTeste.nome)
-# print('--------------------------------------------------------------------------------------------')
-# print('FAIXA: ' +alunoTeste.faixa + '      | MATRÍCULA: 00000000       | NASCIMENO: 01/01/1990 (31)')
-# print('--------------------------------------------------------------------------------------------')
-# print('INSTRUTOR: Thiago Vaz        | HORÁRIO: Seg e Qua 18:00     | PLANO: ASSINATURA')
-# print('--------------------------------------------------------------------------------------------')
-# print('EMAIL: ciclano@gmail.com                              | TEL: (34)9.9999-9999/(34)9.8888-8888' )
-# print('--------------------------------------------------------------------------------------------')
-# print('ENDEREÇO: Av. Qualquer uma, N 123, Bairro: Brasil, Apto 101')
-# print('--------------------------------------------------------------------------------------------')
-# print('CEP: 180182 - 414                                         | OCUPAÇÃO: Agiota')
-# print('-------------------------------------- OBSERVAÇÕES -----------------------------------------')
-# print('      - Cardíaco')
-# print('      - Pressão Alta')
-# print('-------------------------------------- OBSERVAÇÕES -----------------------------------------')
+    def nicePrint(self):
+        print('--------------------------------------------------------------------------------------------')
+        print('NOME: {}'.format(self.nome_completo))
+        print('--------------------------------------------------------------------------------------------')
+        print('FAIXA: {}      | MATRÍCULA: {}       | NASCIMENO: 01/01/1990 (31)'.format(self.faixa,self.id))
+        print('--------------------------------------------------------------------------------------------')
+        print('INSTRUTOR: Thiago Vaz        | HORÁRIO: Seg e Qua {}     | PLANO: {}'.format(self.hora, self.plano))
+        print('--------------------------------------------------------------------------------------------')
+        print('EMAIL: ciclano@gmail.com                              | TEL: (34)9.9999-9999/(34)9.8888-8888' )
+        print('--------------------------------------------------------------------------------------------')
+        print('ENDEREÇO: Av. Qualquer uma, N 123, Bairro: Brasil, Apto 101')
+        print('--------------------------------------------------------------------------------------------')
+        print('CEP: 999999 - 999                                         | OCUPAÇÃO: -')
+        print('-------------------------------------- OBSERVAÇÕES -----------------------------------------')
+
 
 # print(Fore.BLUE + "Hello World")
 # input("ENTER")

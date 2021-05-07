@@ -1,23 +1,14 @@
-#Escrever (ATUALIZAR ALUNO) como se fosse um arquivo de texto normal, escrever com "open /with"
-#import csv 
-#desempacotar a csv como dicionário e unpack os valores separados por '|' em cada key
-#usar INDEX_COL = 'ID' para mudar o index padrão da coluna e resolver problemas de conversão
-#entre do ID para LInhas (Row)
-
-
-
-
 import pandas as pd
 
 df = pd.read_csv('C:/Users/zeron/AppData/Local/Programs/Python/Python39/TESTES/KravPandas/testekravmaga.csv')
 
 def listar_alunos(**kwargs): #vai receber {'belt': lista_belt, 'time': lista_time}
-    filtro = df['id'] != None
+    filtro = df['first_name'] != None
     for coluna in df:
         if coluna in kwargs:
             filtro  = filtro & df[coluna].isin(kwargs.get(coluna))
 
-    print_df(df[filtro].sort_values(by=['first_name']))
+    print_dataframe(df[filtro].sort_values(by=['first_name']))
 
 def buscar_categorias():
     categorias = ['first_name','last_name']
@@ -55,14 +46,14 @@ def buscar_faixa(faixa_min, faixa_max = None):
 
     print(df.loc[filtro])
 
-def buscar_aluno(reg: int) -> tuple:
-    i = (reg - 1)
+def buscar_aluno(i: int) -> tuple:
+    i -= 1
     nome = df['first_name'].values[i]
     faixa = df['belt'].values[i]
     hora = df['time'].values[i]
     sobrenome = df['last_name'].values[i]
     plano = df['pay_plan'].values[i]
-    return (reg, nome, sobrenome, faixa, hora, plano)
+    return (i+1, nome, sobrenome, faixa, hora, plano)
 
 def faixa_upgrade(registro: int):
     filtro = df['id'] == registro
@@ -76,23 +67,24 @@ def inserir_aluno(Aluno):
     i = novo_id()
     novo_aluno = {'id': i, 'first_name': Aluno.nome, 'last_name': Aluno.sobrenome, 'belt': Aluno.faixa, 
     'time': Aluno.hora, 'pay_plan': Aluno.plano}
+
     df2 = df.append(novo_aluno, ignore_index=True)
+
     print(df2.tail(2))
 
 def novo_id() -> int:
-    i_max = list(df['id'])[-1]
-    return i_max +1
+    return df.shape[0]
 
 def atualiza_aluno(Aluno):
     i = Aluno.id - 1
-    df.loc[i, 'first_name'] = Aluno.nome
-    df.loc[i, 'last_name'] = Aluno.sobrenome
-    df.loc[i, 'belt'] = Aluno.faixa
-    df.loc[i, 'time'] = Aluno.hora
-    df.loc[i, 'pay_plan'] = Aluno.plano
-    print(df[df['id'] == i+1])
+    df.iloc[i, 'first_name'] = Aluno.nome
+    df.iloc[i, 'last_name'] = Aluno.sobrenome
+    df.iloc[i, 'belt'] = Aluno.faixa
+    df.iloc[i, 'time'] = Aluno.hora
+    df.iloc[i, 'pay_plan'] = Aluno.plano
+    print(df.iloc[i])
 
-def print_df(lista):
+def print_dataframe(lista):
     for i in range(len(lista)):
         aluno = []
         for j in range(lista.shape[1]):
@@ -105,10 +97,10 @@ def print_df(lista):
     print('\n ==>  '+ str(lista.shape[0]) + ' Alunos encontrados\n')
 
 def alunos_stats(atributo):
-    filtro = df['id'] != None
-    df_stats = df[filtro].sort_values(by=[atributo])
+    #filtro = df['id'] != None
+    #df_stats = df[filtro].sort_values(by=[atributo])
+    df_stats = df.sort_values(by=[atributo])
     atributo = dict(df_stats[atributo].value_counts())
     for key, value in atributo.items():
         print(str(key) + ': ' + str(value)+' ('+ str(value*100/100)+'%)')
-
 
