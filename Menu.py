@@ -7,6 +7,8 @@ import Aluno as al
 import os
 import krav_pandas
 
+opcao_errada = lambda: input('\nOpção INCORRETA! \nENTER para continuar...')
+
 def cls():
     os.system('cls' if os.name=='nt' else 'clear')
 
@@ -20,42 +22,45 @@ while(True):
   if menu == '0': break 
   
   #opcao para cadastrar aluno
-  if menu == '1':
+  elif menu == '1':
     while(True):
-        print('\nCadastrando novo aluno')
-        atributos = ['NOME', 'FAIXA']
-        aluno_list = []
-        for i in range(len(atributos)):
-          a = input(atributos[i] +': ')
-          aluno_list.append(a)
+      cls()
+      print('\nCadastrando novo aluno')
+      print()
+      atributos = ['NOME', 'FAIXA']
+      aluno_list = []
+      for i in range(len(atributos)):
+        a = input(atributos[i] +': ') 
+        if not a: a = '[VAZIO]' 
+        aluno_list.append(a)
 
-        aluno = al.Aluno(aluno_list[0], aluno_list[1])
-        print('\nConfira os dados abaixo:')
-        print(aluno)
-        print('\n[1] Confirmar cadastro \n[2] Redigitar \n[0] Cancelar')
-        menu = input('Escolha: ')
-        if menu =='1': 
-          krav_pandas.inserir_aluno(aluno) 
-          break
-        if menu == '2': 
-          cls()
-        elif menu == '0': 
-          cls()
-          break
-        else:
-          input('\nOpção Inválida!! \nRetornando ao Menu Principal...\nENTER para prosseguir...')
-          cls()
-          break
+      aluno = al.Aluno(aluno_list[0], aluno_list[1])
+      print('\nConfira os dados abaixo:')
+      print(aluno)
+      print('\n[1] Confirmar cadastro \n[2] Redigitar \n[0] Cancelar')
+      menu = input('Escolha: ')
+      if menu =='1': 
+        krav_pandas.inserir_aluno(aluno) 
+        break
+      if menu == '2': 
+        cls()
+      elif menu == '0': 
+        cls()
+        break
+      else:
+        opcao_errada()
+        cls()
+        break
  
   #buscar aluno pelo ID
-  if menu == '2':
+  elif menu == '2':
         id = int(input('ID do Aluno: '))
         aluno = al.Aluno(id)
         cls()
         aluno.nicePrint()
 
   #listar alunos por faixas e ou horários de treino
-  if menu == '3':
+  elif menu == '3':
     requisitos = {}
     selecionados = []
     while(menu == '3'):
@@ -150,7 +155,7 @@ while(True):
         
   #GRADUAR busca aluno por ID, passa uma faixa dele e pergunta se quer graduar outro
   #ainda não está atualizando no DATAFRAME
-  if menu == '4':
+  elif menu == '4':
     menu4 = 'oi'
     cls()
     alunoId = int(input('Qual ID do aluno? \nID: '))
@@ -164,7 +169,7 @@ while(True):
       krav_pandas.atualiza_aluno(aluno)
       print(aluno)
 
-  if menu == '5':
+  elif menu == '5':
     cls()
     print('Gerar estatísticas de qual categoria?')
     print('[1] Faixa \n[2] Horário \n[3] Planos \n[0] Menu Principal')
@@ -178,3 +183,7 @@ while(True):
      krav_pandas.alunos_stats('pay_plan')
     print()
     
+  else:
+    opcao_errada()
+    cls()
+

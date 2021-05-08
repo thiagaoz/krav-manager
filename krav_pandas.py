@@ -73,7 +73,7 @@ def inserir_aluno(Aluno):
     print(df2.tail(2))
 
 def novo_id() -> int:
-    return df.shape[0]
+    return df.shape[0] + 1
 
 def atualiza_aluno(Aluno):
     i = Aluno.id - 1
