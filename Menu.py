@@ -1,16 +1,48 @@
-#novas colunas pandas
+#---- PERSONAL REMMINDER for uppcoming features or fixes
 #tratar valores ausentes no pandas
-#editar atributos dos alunos
+#no CADASTRAR: opção de redigitar atributo específico do aluno cadastrado
+#comentario em ingles
+#COMMIT: feat: New entry system for students with less typing
 
 
-import Aluno as al
+#Changes on the dataframe are not permanent
+from Aluno import Aluno
 import os
 import krav_pandas
 
+#shortcut to print "Wrong input message"
 opcao_errada = lambda: input('\nOpção INCORRETA! \nENTER para continuar...')
 
 def cls():
     os.system('cls' if os.name=='nt' else 'clear')
+
+#percorre os valores da lista para gerar um menu, depois testa e retorna o valor escolhido da lista
+def cadastra_atributo(lista):
+  if len(lista) > 5:
+    l = len(lista)
+    for i in range(1,l,2):
+      espaco = ' '* (20 - len(lista[i-1]))
+      print('[{}] {}{}[{}] {}'.format(i, lista[i-1], espaco, i+1, lista[i]))
+      i += 2
+      if (i == l) and (l%2 != 0): 
+        print('[{}] {}'.format(i, lista[i-1]))
+        break
+  
+  else:
+    for i, value in enumerate(lista, 1):
+      print('[{}] {}'.format(i, value))
+  try:
+        entrada = int(input('Escolha: ')) - 1
+        return lista[entrada]
+  except:
+    return '[VAZIO]'
+
+#
+def redigitar_aluno(i, lista):
+  if i == 1:
+    lista[0] = (input('NOME: '))
+  else:
+    lista[i-1] = (cadastra_atributo(Aluno.atributos[i-1]))
 
 print('-------======= KRAV MANAGER v0.1 ========-------')
 while(True):
@@ -21,30 +53,60 @@ while(True):
   #termina o program
   if menu == '0': break 
   
-  #opcao para cadastrar aluno
+  #Register a new student on the dataframe
   elif menu == '1':
     while(True):
       cls()
       print('\nCadastrando novo aluno')
       print()
-      atributos = ['NOME', 'FAIXA']
+      atributos = ['NOME', 'FAIXA','HORÁRIO','PLANO']
       aluno_list = []
-      for i in range(len(atributos)):
-        a = input(atributos[i] +': ') 
-        if not a: a = '[VAZIO]' 
-        aluno_list.append(a)
 
-      aluno = al.Aluno(aluno_list[0], aluno_list[1])
+      #collecting and adding student values
+      aluno_list.append(input('NOME: ')) 
+      print('\nEscolha a FAIXA')
+      aluno_list.append(cadastra_atributo(Aluno.faixas))
+      print('\nEscolha o HORÁRIO')
+      aluno_list.append(cadastra_atributo(Aluno.horarios))
+      print('\nEscolha o PLANO')
+      aluno_list.append(cadastra_atributo(Aluno.planos))
+
+      #Percorre a lista e preenche com [VAZIO] todos atributos que não foram digitados
+      # for i, value in enumerate(aluno_list):
+      #   if not value: aluno_list[i] = '[VAZIO]' 
+      
+      #show the new student and ask cconfirmation before registration
+      cls()
+      aluno = Aluno(*aluno_list)
       print('\nConfira os dados abaixo:')
       print(aluno)
       print('\n[1] Confirmar cadastro \n[2] Redigitar \n[0] Cancelar')
-      menu = input('Escolha: ')
-      if menu =='1': 
+      menu1 = input('Escolha: ')
+      if menu1 =='1': 
         krav_pandas.inserir_aluno(aluno) 
         break
-      if menu == '2': 
-        cls()
-      elif menu == '0': 
+
+      #Let the user pick a field to type or choose another value
+      elif menu1 == '2': 
+        while menu1 == '2':
+          try: #avoid entry type errors
+            cls()
+            print(aluno)
+            print('Qual categoria gostaria de redigitar?')
+            print('[1] NOME \n[2] FAIXA \n[3] HOÁRIO \n[4] PLANO \n[5] CONFIRMAR cadastro \n[0] SAIR sem cadastrar')
+            i = int(input('Escolha: '))
+            if i == 5: 
+              krav_pandas.inserir_aluno(aluno)
+              menu1 = 'out'
+            elif i == 0:
+              menu1 = 'out'
+            else:
+              redigitar_aluno(i, aluno_list)
+              aluno = Aluno(*aluno_list)
+          except:
+            opcao_errada
+        break
+      elif menu1 == '0': 
         cls()
         break
       else:
@@ -55,7 +117,7 @@ while(True):
   #buscar aluno pelo ID
   elif menu == '2':
         id = int(input('ID do Aluno: '))
-        aluno = al.Aluno(id)
+        aluno = Aluno(id)
         cls()
         aluno.nicePrint()
 
@@ -159,7 +221,7 @@ while(True):
     menu4 = 'oi'
     cls()
     alunoId = int(input('Qual ID do aluno? \nID: '))
-    aluno = al.Aluno(alunoId)
+    aluno = Aluno(alunoId)
     print()
     print(aluno)
     menu4 = input('\nGraduar Aluno [S/N]? ').upper()
@@ -186,4 +248,7 @@ while(True):
   else:
     opcao_errada()
     cls()
+
+
+
 

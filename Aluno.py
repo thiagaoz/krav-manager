@@ -9,6 +9,14 @@ init(autoreset=True)
 class Aluno:
 
     faixas = ['BRANCA','AMARELA','LARANJA','VERDE','AZUL','MARROM','PRETAI','PRETAII','PRETAIII','MESTRE']
+    horarios = ['18:00','19:00','20:00']
+    planos = ['MENSALISTA','ASSINATURA']
+
+    #List of atributes that redigitar_function uses
+    atributos ={
+        1: ['BRANCA','AMARELA','LARANJA','VERDE','AZUL','MARROM','PRETAI','PRETAII','PRETAIII','MESTRE'],
+        2 : ['18:00','19:00','20:00'],
+        3 : ['MENSALISTA','ASSINATURA']}
 
     def __init__(self, *args):
         if isinstance(args[0], int):
@@ -26,8 +34,8 @@ class Aluno:
             self.sobrenome = "Silva"
             self.nome_completo = self.nome + ' ' + self.sobrenome
             self.faixa = args[1].upper()
-            self.hora = "18:00"
-            self.plano = "MENSALISTA"
+            self.hora = args[2]
+            self.plano = args[3]
             self.id = krav_pandas.novo_id()
 
     def __str__(self):
@@ -55,6 +63,3 @@ class Aluno:
         print('CEP: 999999 - 999                                         | OCUPAÇÃO: -')
         print('-------------------------------------- OBSERVAÇÕES -----------------------------------------')
 
-
-# print(Fore.BLUE + "Hello World")
-# input("ENTER")
