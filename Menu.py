@@ -1,8 +1,9 @@
-#---- PERSONAL REMMINDER for uppcoming features or fixes
+#---- PERSONAL REMMINDER for upcoming features or fixes
 #tratar valores ausentes no pandas
-#no CADASTRAR: opção de redigitar atributo específico do aluno cadastrado
+
 #comentario em ingles
 #COMMIT: feat: New entry system for students with less typing
+#and option to choose especific atribute to retype
 
 
 #Changes on the dataframe are not permanent
@@ -231,6 +232,7 @@ while(True):
       krav_pandas.atualiza_aluno(aluno)
       print(aluno)
 
+  #Get stats from students (belts, payment, training hours)
   elif menu == '5':
     cls()
     print('Gerar estatísticas de qual categoria?')
